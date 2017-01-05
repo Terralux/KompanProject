@@ -1,41 +1,41 @@
 # =============== #
 # Unity generated #
 # =============== #
-[Tt]emp/
-[Oo]bj/
-[Bb]uilds/
-[Ll]ibrary/
-[Ll]ibrary_ANDROID/
-[Ll]ibrary_PC/
-[Ll]ibrary_IOS/
-sysinfo.txt
-UnityVS/
-UnityVS.meta
-LightingData*
-ReflectionProbe*
-Assets/Scenes/Personal Scenes*
+Kompan Project/[Tt]emp/
+Kompan Project/[Oo]bj/
+Kompan Project/[Bb]uilds/
+Kompan Project/[Ll]ibrary/
+Kompan Project/[Ll]ibrary_ANDROID/
+Kompan Project/[Ll]ibrary_PC/
+Kompan Project/[Ll]ibrary_IOS/
+Kompan Project/sysinfo.txt
+Kompan Project/UnityVS/
+Kompan Project/UnityVS.meta
+Kompan Project/LightingData*
+Kompan Project/ReflectionProbe*
+Kompan Project/Assets/Scenes/Personal Scenes*
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
-[Ee]xported[Oo]bj/
-*.userprefs
-*.csproj
-*.pidb
-*.suo
-*.sln*
-*.user
-*.unityproj
-*.booproj
+Kompan Project/[Ee]xported[Oo]bj/
+Kompan Project/*.userprefs
+Kompan Project/*.csproj
+Kompan Project/*.pidb
+Kompan Project/*.suo
+Kompan Project/*.sln*
+Kompan Project/*.user
+Kompan Project/*.unityproj
+Kompan Project/*.booproj
 
 # ============
 # OS generated
 # ============
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-Thumbs.db.meta
+Kompan Project/.DS_Store
+Kompan Project/.DS_Store?
+Kompan Project/._*
+Kompan Project/.Spotlight-V100
+Kompan Project/.Trashes
+Kompan Project/ehthumbs.db
+Kompan Project/Thumbs.db
+Kompan Project/Thumbs.db.meta
