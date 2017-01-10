@@ -37,7 +37,14 @@ public class SimpleRotation : MonoBehaviour {
 		if (isSlowingDown) {
 			speed -= Time.deltaTime * slowDownFactor;
 			if (speed <= 0) {
-				Destroy (this);
+				foreach (WobbleTarget wt in transform.GetComponentsInChildren<WobbleTarget>()) {
+					wt.enabled = true;
+					wt.InitializeText ();
+					Destroy (wt.transform.GetComponent<LerpTowards> ());
+				}
+				Camera.main.transform.GetComponent<TargetSelection> ().enabled = true;
+				speed = 0f;
+				Destroy (this, 1f);
 			}
 		}
 	}
