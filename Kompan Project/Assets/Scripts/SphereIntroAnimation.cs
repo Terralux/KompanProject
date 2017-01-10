@@ -49,9 +49,8 @@ public class SphereIntroAnimation : MonoBehaviour {
 
 	void Update(){
 		for (int i = 0; i < instantiatedIslands.Count; i++) {
-			if (Vector3.Distance (instantiatedIslands [i].transform.position, targetPosition.position) < 2f) {
+			if (Vector3.Distance (instantiatedIslands [i].transform.position, targetPosition.position) < 4f) {
 				instantiatedIslands [i].transform.SetParent (parentObject);
-				Destroy (instantiatedIslands [i].GetComponent<Rigidbody> ());
 			}
 		}
 	}
