@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SphereIntroAnimation : MonoBehaviour {
 
+	public float startDelay = 10f;
+
 	public Transform parentObject;
 
 	public GameObject[] islandOptions;
@@ -22,7 +24,12 @@ public class SphereIntroAnimation : MonoBehaviour {
 			GameObject go = new GameObject ("Position " + (i + 1));
 			go.transform.SetParent (parentObject);
 		}
-		StartCoroutine (WaitForNextSpawn());
+		StartCoroutine (WaitForStartUp ());
+	}
+
+	IEnumerator WaitForStartUp() {
+		yield return new WaitForSeconds (startDelay);
+		StartCoroutine (WaitForNextSpawn ());
 	}
 
 	IEnumerator WaitForNextSpawn(){
@@ -54,18 +61,4 @@ public class SphereIntroAnimation : MonoBehaviour {
 			}
 		}
 	}
-
-	/*
-	void OrganizeChildren(){
-		for (int j = instantiatedIslands.Count - 1; j > 0; j--) {
-			for (int i = 0; i < j; i++) {
-				if (instantiatedIslands [i] > instantiatedIslands [i + 1]) {
-					GameObject temp = instantiatedIslands [i];
-					instantiatedIslands [i] = instantiatedIslands [i + 1];
-					instantiatedIslands [i + 1] = temp;
-				}
-			}
-		}
-	}
-	*/
 }

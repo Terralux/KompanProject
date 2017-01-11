@@ -22,6 +22,11 @@ public class WobbleTarget : LookTarget {
 	private bool hasBeenChosen = false;
 	private Vector3 originalPosition;
 
+	public static GameObject chosenBubble;
+
+	[HideInInspector]
+	public int sceneIndex;
+
 	// Use this for initialization
 	void Awake () {
 		originalSize = transform.localScale;
@@ -30,13 +35,28 @@ public class WobbleTarget : LookTarget {
 	
 	// Update is called once per frame
 	void Update () {
-		if (hasBeenChosen) {
-			fraction += 0.01f * speed * 0.001f;
-			transform.position = Vector3.Lerp (originalPosition, Camera.main.transform.position, fraction);
+		if (chosenBubble != null) {
+			if (chosenBubble == gameObject) {
+				//Fade to black
+				if (Vector3.Distance (transform.position, Camera.main.transform.position) < 1f) {
+					if (sceneIndex > 0) {
+						UnityEngine.SceneManagement.SceneManager.LoadScene (sceneIndex);
+					} else {
+						UnityEngine.SceneManagement.SceneManager.LoadScene (1);
+					}
+				} else {
+					fraction += 0.05f * speed * Time.deltaTime;
+					transform.position = Vector3.Lerp (originalPosition, Camera.main.transform.position, fraction);
+				}
+			}else{
+				textObject.transform.SetParent (transform);
 
-			if (Vector3.Distance (transform.position, Camera.main.transform.position) < 0.1f) {
-				Debug.Log ("<color=purple>Make Transition</color>" + " " + Time.time);
-				hasBeenChosen = false;
+				if (transform.localScale.magnitude > 0.01f) {
+					fraction += 0.15f * speed * Time.deltaTime;
+					transform.localScale = Vector3.Lerp (originalSize, Vector3.zero, fraction);
+				} else {
+					Pop ();
+				}
 			}
 		} else {
 			if (isInFocus) {
@@ -55,6 +75,7 @@ public class WobbleTarget : LookTarget {
 		fraction = 0f;
 		originalPosition = transform.position;
 		hasBeenChosen = true;
+		chosenBubble = gameObject;
 	}
 
 	public override void Focus(bool inFocus) {
@@ -89,11 +110,10 @@ public class WobbleTarget : LookTarget {
 	}
 
 	public void InitializeText(){
-		Vector3 direction = Camera.main.transform.position - textObject.transform.position;
-		textObject.transform.localPosition = new Vector3 (0, textObject.transform.localPosition.y, 0) + direction * textDistance;
-		//textObject.SetActive (true);
-		//textObject.transform.SetParent (null);
-		Debug.Log("<color=red>THIS NEEDS TO BE FIXED!</color>");
+		Destroy(GetComponent<LookAtPlayer> ());
+		textObject.SetActive (true);
+		textObject.transform.SetParent (null);
+		//Debug.Log("<color=red>THIS NEEDS TO BE FIXED!</color>");
 		/*
 		 * Bloqx
 		 * Cross Systems
@@ -104,5 +124,9 @@ public class WobbleTarget : LookTarget {
 		 * Freegame
 		 * Corocord
 		*/
+	}
+
+	public void Pop(){
+		
 	}
 }

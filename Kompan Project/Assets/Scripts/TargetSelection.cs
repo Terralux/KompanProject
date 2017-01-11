@@ -31,14 +31,17 @@ public class TargetSelection : MonoBehaviour {
 			if (hit.collider != null) {
 				prevLt = lt;
 				lt = hit.collider.gameObject.GetComponent<LookTarget> ();
-				if (lt != null) {
-					isInFocus = true;
-					lt.Focus (isInFocus);
 
-					if (lt != prevLt) {
-						passedTime = 0f;
-						if (prevLt != null) {
-							prevLt.Focus (false);
+				if (lt != null) {
+					if ((lt as WobbleTarget).isActiveAndEnabled) {
+						isInFocus = true;
+						lt.Focus (isInFocus);
+
+						if (lt != prevLt) {
+							passedTime = 0f;
+							if (prevLt != null) {
+								prevLt.Focus (false);
+							}
 						}
 					}
 				}
@@ -56,6 +59,8 @@ public class TargetSelection : MonoBehaviour {
 			if (passedTime >= 3) {
 				isInFocus = false;
 				lt.Action ();
+				uiTimer.fillAmount = 0f;
+				this.enabled = false;
 			}
 		} else {
 			if (lt != null) {

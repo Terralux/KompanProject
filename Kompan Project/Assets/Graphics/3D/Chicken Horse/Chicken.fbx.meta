@@ -12,6 +12,14 @@ ModelImporter:
     100008: Plane
     100010: Plane.001
     100012: Sphere
+    100014: Circle.002
+    100016: Landscape
+    100018: Landscape.001
+    100020: Layer_213
+    100022: Layer_213_MeshPart0
+    100024: Layer_213_MeshPart1
+    100026: Layer_213_MeshPart2
+    100028: Layer_213_MeshPart3
     400000: //RootNode
     400002: Circle
     400004: Circle.001
@@ -19,6 +27,14 @@ ModelImporter:
     400008: Plane
     400010: Plane.001
     400012: Sphere
+    400014: Circle.002
+    400016: Landscape
+    400018: Landscape.001
+    400020: Layer_213
+    400022: Layer_213_MeshPart0
+    400024: Layer_213_MeshPart1
+    400026: Layer_213_MeshPart2
+    400028: Layer_213_MeshPart3
     2300000: Circle
     2300002: Circle.001
     2300004: Cube
@@ -26,6 +42,13 @@ ModelImporter:
     2300008: Plane.001
     2300010: Sphere
     2300012: //RootNode
+    2300014: Circle.002
+    2300016: Landscape
+    2300018: Landscape.001
+    2300020: Layer_213_MeshPart0
+    2300022: Layer_213_MeshPart1
+    2300024: Layer_213_MeshPart2
+    2300026: Layer_213_MeshPart3
     3300000: Circle
     3300002: Circle.001
     3300004: Cube
@@ -33,12 +56,26 @@ ModelImporter:
     3300008: Plane.001
     3300010: Sphere
     3300012: //RootNode
+    3300014: Circle.002
+    3300016: Landscape
+    3300018: Landscape.001
+    3300020: Layer_213_MeshPart0
+    3300022: Layer_213_MeshPart1
+    3300024: Layer_213_MeshPart2
+    3300026: Layer_213_MeshPart3
     4300000: Circle.001
     4300002: Cube
     4300004: Sphere
     4300006: Circle
     4300008: Plane.001
     4300010: Plane
+    4300012: Landscape.001
+    4300014: Layer_213_MeshPart0
+    4300016: Layer_213_MeshPart1
+    4300018: Layer_213_MeshPart2
+    4300020: Layer_213_MeshPart3
+    4300022: Landscape
+    4300024: Circle.002
   materials:
     importMaterials: 0
     materialName: 0
@@ -68,7 +105,7 @@ ModelImporter:
     addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

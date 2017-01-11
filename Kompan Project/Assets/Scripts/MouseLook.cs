@@ -62,6 +62,7 @@ public class MouseLook : MonoBehaviour {
 	}
 	void Start ()
 	{
+		Physics.gravity = Physics.gravity * 0.1f;
 		// Make the rigid body not change rotation
 		if (GetComponent<Rigidbody>())
 			GetComponent<Rigidbody>().freezeRotation = true;
@@ -74,6 +75,13 @@ public class MouseLook : MonoBehaviour {
 		if (angle > 360F)
 			angle -= 360F;
 		return Mathf.Clamp (angle, min, max);
+	}
+
+	void OnCollisionEnter(Collision col){
+		if (col.gameObject.CompareTag ("Terrain")) {
+			Destroy (GetComponent<Rigidbody> ());
+			Destroy (GetComponent<CapsuleCollider> ());
+		}
 	}
 
 }
