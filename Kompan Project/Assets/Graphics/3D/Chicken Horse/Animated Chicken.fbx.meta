@@ -19,6 +19,11 @@ ModelImporter:
     100022: Sphere
     100024: Tracker
     100026: Tracker_end
+    100028: Spring Root
+    100030: Spring Section
+    100032: Static
+    100034: Static_end
+    100036: Torus
     400000: //RootNode
     400002: Armature
     400004: Bone
@@ -33,6 +38,11 @@ ModelImporter:
     400022: Sphere
     400024: Tracker
     400026: Tracker_end
+    400028: Spring Root
+    400030: Spring Section
+    400032: Static
+    400034: Static_end
+    400036: Torus
     2300000: Circle
     2300002: Cube
     2300004: Plane
@@ -49,9 +59,11 @@ ModelImporter:
     4300006: Cube
     4300008: Sphere
     4300010: Circle.001
-    7400000: Armature|ArmatureAction
+    4300012: Torus
+    7400000: Boing
     9500000: //RootNode
     13700000: Circle.001
+    13700002: Torus
   materials:
     importMaterials: 1
     materialName: 0
@@ -66,13 +78,55 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Boing
+      takeName: Armature|ArmatureAction
+      firstFrame: 0
+      lastFrame: 95
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Spring Root
+        weight: 1
+      - path: Armature/Spring Root/Spring Section
+        weight: 1
+      - path: Armature/Spring Root/Spring Section/Static
+        weight: 1
+      - path: Armature/Spring Root/Spring Section/Static/Static_end
+        weight: 1
+      - path: Torus
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -111,7 +165,7 @@ ModelImporter:
     rootMotionBoneName: 
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
