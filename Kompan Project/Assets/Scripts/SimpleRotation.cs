@@ -10,7 +10,7 @@ public class SimpleRotation : MonoBehaviour {
 	[Range(1,5)]
 	public float radiusOffset = 3f;
 
-	[Range(0f,1f)]
+	[Range(-1f,1f)]
 	public float heightOffset = 0.2f;
 
 	private float rotationOffset;
@@ -21,13 +21,15 @@ public class SimpleRotation : MonoBehaviour {
 	[Range(0.05f,10f)]
 	public float slowDownFactor = 10f;
 
+	public TargetSelection ts;
+
 	void Start(){
 		rotationOffset = 360f/transform.childCount;
 
 		for (int i = 0; i < transform.childCount; i++) {
 			transform.GetChild (i).localPosition = Vector3.zero;
 			transform.GetChild (i).Rotate (new Vector3 (0, rotationOffset * i, 0));
-			transform.GetChild (i).localPosition = transform.GetChild (i).forward * radiusOffset + new Vector3 (0, Random.Range (-heightOffset, heightOffset), 0);
+			transform.GetChild (i).localPosition = transform.GetChild (i).forward * radiusOffset + new Vector3 (0, heightOffset, 0);
 		}
 	}
 
@@ -47,7 +49,7 @@ public class SimpleRotation : MonoBehaviour {
 					Destroy (wt.transform.GetComponent<LerpTowards> ());
 					count++;
 				}
-				Camera.main.transform.GetComponent<TargetSelection> ().enabled = true;
+				ts.enabled = true;
 				speed = 0f;
 				Destroy (this, 1f);
 			}

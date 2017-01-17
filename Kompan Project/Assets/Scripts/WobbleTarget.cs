@@ -40,9 +40,9 @@ public class WobbleTarget : LookTarget {
 				//Fade to black
 				if (Vector3.Distance (transform.position, Camera.main.transform.position) < 1f) {
 					if (sceneIndex > 0) {
-						UnityEngine.SceneManagement.SceneManager.LoadScene (sceneIndex);
+						//UnityEngine.SceneManagement.SceneManager.LoadScene (sceneIndex);
 					} else {
-						UnityEngine.SceneManagement.SceneManager.LoadScene (1);
+						//UnityEngine.SceneManagement.SceneManager.LoadScene (1);
 					}
 				} else {
 					fraction += 0.05f * speed * Time.deltaTime;
