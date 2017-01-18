@@ -47,6 +47,7 @@ public class SphereIntroAnimation : MonoBehaviour {
 			yield return new WaitForSeconds (2f);
 			parentObject.GetComponent<SimpleRotation> ().isSlowingDown = true;
 			Debug.Log("No more islands! :D");
+			Destroy (gameObject);
 		}
 	}
 

@@ -18,7 +18,15 @@ public class TeleportInputControl : MonoBehaviour {
 
 	private Transform teleportTarget;
 
+	private Vector3 teleportLocation;
+
+	private FadeMaster fm;
+
+	private bool canTeleport = true;
+
 	void Awake(){
+		fm = GameObject.FindGameObjectWithTag ("FadeMaster").GetComponent<FadeMaster>();
+
 		teleportTarget = transform.GetChild (0);
 		teleportTarget.SetParent (null);
 
@@ -39,14 +47,23 @@ public class TeleportInputControl : MonoBehaviour {
 
 				teleportTarget.position = hit.point + new Vector3 ( 0, teleportMarkerHeightOffset, 0);
 
-				if (Controller.GetHairTriggerDown ()) {
-
-					Vector3 difference = playArea.position - transform.position;
-					difference = new Vector3 (difference.x, 0, difference.z);
-					playArea.position = hit.point + new Vector3 (0, heightOffset, 0) + difference;
+				if (Controller.GetHairTriggerDown () && canTeleport) {
+					//fm.Fade (1);
+					//fm.OnCompletelyFaded += MovePlayer;
+					teleportLocation = hit.point;
+					canTeleport = false;
+					MovePlayer ();
 				}
 			}
 		}
+	}
+
+	void MovePlayer(){
+		fm.OnCompletelyFaded -= MovePlayer;
+		Vector3 difference = playArea.position - transform.position;
+		difference = new Vector3 (difference.x, 0, difference.z);
+		playArea.position = teleportLocation + new Vector3 (0, heightOffset, 0) + difference;
+		canTeleport = true;
 	}
 
 	void OnCollisionEnter(Collision col){

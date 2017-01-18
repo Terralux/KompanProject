@@ -11,7 +11,7 @@ public class LerpTowards : MonoBehaviour {
 
 	private float fraction;
 
-	[Range(0f,0.1f)]
+	[Range(0.1f,5f)]
 	public float speed;
 
 	// Use this for initialization
@@ -22,7 +22,7 @@ public class LerpTowards : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (target != null) {
-			fraction += 0.01f;
+			fraction += speed * Time.deltaTime;
 			transform.position = Vector3.Lerp (origin, target.position, fraction);
 		}
 	}
