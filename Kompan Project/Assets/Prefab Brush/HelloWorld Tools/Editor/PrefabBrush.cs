@@ -106,7 +106,6 @@ public class PrefabBrush : EditorWindow {
 	private Color placeBrushDefault = new Color(0,1,0,0.1f);
 	private Color removeBrushDefault = new Color(1,0,0,0.1f);
     private Color backGroundDefault = Color.white;
-    private Color backGroundTwoDefault = Color.white;
     private Color selectedTabDefault = Color.green;
 	private Color deleteButtonDefault = Color.red;
 

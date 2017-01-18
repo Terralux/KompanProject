@@ -10,7 +10,7 @@ public class WobbleTarget : LookTarget {
 	private Vector3 originalSize;
 	private bool isInFocus = false;
 
-	private float fraction = 0f;
+	public float fraction = 0f;
 	private Vector3 currentSize;
 
 	public GameObject splashParticles;
@@ -19,7 +19,6 @@ public class WobbleTarget : LookTarget {
 	public GameObject textObject;
 	public float textDistance = 1f;
 
-	private bool hasBeenChosen = false;
 	private Vector3 originalPosition;
 
 	public static GameObject chosenBubble;
@@ -27,23 +26,20 @@ public class WobbleTarget : LookTarget {
 	[HideInInspector]
 	public int sceneIndex;
 
-	// Use this for initialization
+	private FadeMaster fm;
+
 	void Awake () {
 		originalSize = transform.localScale;
 		splashParticles.GetComponent<ParticleSystem> ().Stop ();
+		fm = GameObject.FindGameObjectWithTag ("FadeMaster").GetComponent<FadeMaster> ();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		if (chosenBubble != null) {
 			if (chosenBubble == gameObject) {
-				//Fade to black
 				if (Vector3.Distance (transform.position, Camera.main.transform.position) < 1f) {
-					if (sceneIndex > 0) {
-						//UnityEngine.SceneManagement.SceneManager.LoadScene (sceneIndex);
-					} else {
-						//UnityEngine.SceneManagement.SceneManager.LoadScene (1);
-					}
+					fm.Fade (1);
+					fm.OnCompletelyFaded += InitiateLoad;
 				} else {
 					fraction += 0.05f * speed * Time.deltaTime;
 					transform.position = Vector3.Lerp (originalPosition, Camera.main.transform.position, fraction);
@@ -51,7 +47,7 @@ public class WobbleTarget : LookTarget {
 			}else{
 				textObject.transform.SetParent (transform);
 
-				if (transform.localScale.magnitude > 0.01f) {
+				if (fraction < 1) {
 					fraction += 0.15f * speed * Time.deltaTime;
 					transform.localScale = Vector3.Lerp (originalSize, Vector3.zero, fraction);
 				} else {
@@ -66,6 +62,12 @@ public class WobbleTarget : LookTarget {
 		}
 	}
 
+
+	void InitiateLoad () {
+		fm.OnCompletelyFaded -= InitiateLoad;
+		UnityEngine.SceneManagement.SceneManager.LoadScene (1);
+	}
+
 	#region implemented abstract members of LookTarget
 
 	public override void Action () {
@@ -74,7 +76,6 @@ public class WobbleTarget : LookTarget {
 		GetComponent<SphereCollider> ().enabled = false;
 		fraction = 0f;
 		originalPosition = transform.position;
-		hasBeenChosen = true;
 		chosenBubble = gameObject;
 	}
 
@@ -98,12 +99,13 @@ public class WobbleTarget : LookTarget {
 	#endregion
 
 	IEnumerator LerpSizeToOrigin(){
-		fraction += 0.01f * speed * 0.001f;
+		fraction += 0.5f * speed * 0.001f;
 		transform.localScale = Vector3.Lerp (currentSize, originalSize, fraction);
-		yield return new WaitForSeconds (0.01f);
+		yield return new WaitForSeconds (0.05f);
 		if (fraction >= 1) {
 			transform.localScale = originalSize;
 			fraction = 0f;
+			StopAllCoroutines ();
 		} else {
 			StartCoroutine (LerpSizeToOrigin ());
 		}
@@ -127,6 +129,8 @@ public class WobbleTarget : LookTarget {
 	}
 
 	public void Pop(){
-		
+		splashParticles.transform.SetParent (null);
+		splashParticles.GetComponent<ParticleSystem> ().Emit (30);
+		Destroy (gameObject);
 	}
 }

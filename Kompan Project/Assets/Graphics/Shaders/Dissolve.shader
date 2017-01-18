@@ -8,7 +8,7 @@
 		Tags { "RenderType" = "Opaque" }
 		Cull Off
 		CGPROGRAM
-		#pragma surface surf Lambert addshadow
+		#pragma surface surf NoLighting addshadow
 		struct Input {
 			float2 uv_MainTex;
 			float2 uv_SliceGuide;
@@ -21,6 +21,14 @@
 			clip(tex2D (_SliceGuide, IN.uv_SliceGuide).rgb - _SliceAmount);
 			o.Albedo = tex2D (_MainTex, IN.uv_MainTex).rgb;
 		}
+
+		fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten) {
+			fixed4 c;
+			c.rgb = s.Albedo;
+			c.a = s.Alpha;
+			return c;
+		}
+
 		ENDCG
 	}
 	Fallback "Diffuse"
