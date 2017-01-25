@@ -57,7 +57,7 @@ public class SphereIntroAnimation : MonoBehaviour {
 
 	void Update(){
 		for (int i = 0; i < instantiatedIslands.Count; i++) {
-			if (Vector3.Distance (instantiatedIslands [i].transform.position, targetPosition.position) < 4f) {
+			if (Vector3.Distance (instantiatedIslands [i].transform.position, targetPosition.position) < 10f) {
 				instantiatedIslands [i].transform.SetParent (parentObject);
 			}
 		}

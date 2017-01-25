@@ -13,7 +13,7 @@ public class WobbleTarget : LookTarget {
 	public float fraction = 0f;
 	private Vector3 currentSize;
 
-	public GameObject splashParticles;
+	//public GameObject splashParticles;
 	public GameObject bubbleParticles;
 
 	public GameObject textObject;
@@ -26,20 +26,18 @@ public class WobbleTarget : LookTarget {
 	[HideInInspector]
 	public int sceneIndex;
 
-	private FadeMaster fm;
-
+	private bool isLoadingLevel = false;
 	void Awake () {
 		originalSize = transform.localScale;
-		splashParticles.GetComponent<ParticleSystem> ().Stop ();
-		fm = GameObject.FindGameObjectWithTag ("FadeMaster").GetComponent<FadeMaster> ();
 	}
 
 	void Update () {
 		if (chosenBubble != null) {
 			if (chosenBubble == gameObject) {
 				if (Vector3.Distance (transform.position, Camera.main.transform.position) < 1f) {
-					fm.Fade (1);
-					fm.OnCompletelyFaded += InitiateLoad;
+					if (!isLoadingLevel) {
+						InitiateLoad ();
+					}
 				} else {
 					fraction += 0.05f * speed * Time.deltaTime;
 					transform.position = Vector3.Lerp (originalPosition, Camera.main.transform.position, fraction);
@@ -64,8 +62,9 @@ public class WobbleTarget : LookTarget {
 
 
 	void InitiateLoad () {
-		fm.OnCompletelyFaded -= InitiateLoad;
-		UnityEngine.SceneManagement.SceneManager.LoadScene (1);
+		SteamVR_LoadLevel.Begin ("FirstPreviewScene", false, 0.5f, 0, 0, 0, 1);
+		isLoadingLevel = true;
+		//UnityEngine.SceneManagement.SceneManager.LoadScene (1);
 	}
 
 	#region implemented abstract members of LookTarget
@@ -81,8 +80,6 @@ public class WobbleTarget : LookTarget {
 
 	public override void Focus(bool inFocus) {
 		if (!isInFocus && inFocus) {
-			splashParticles.SetActive (true);
-			splashParticles.GetComponent<ParticleSystem> ().Emit (30);
 			bubbleParticles.GetComponent<ParticleSystem> ().Play ();
 		}
 		isInFocus = inFocus;
@@ -115,22 +112,9 @@ public class WobbleTarget : LookTarget {
 		Destroy(GetComponent<LookAtPlayer> ());
 		textObject.SetActive (true);
 		textObject.transform.SetParent (null);
-		//Debug.Log("<color=red>THIS NEEDS TO BE FIXED!</color>");
-		/*
-		 * Bloqx
-		 * Cross Systems
-		 * Elements
-		 * Galaxy
-		 * Imaginator
-		 * Organic Robinia
-		 * Freegame
-		 * Corocord
-		*/
 	}
 
 	public void Pop(){
-		splashParticles.transform.SetParent (null);
-		splashParticles.GetComponent<ParticleSystem> ().Emit (30);
 		Destroy (gameObject);
 	}
 }
