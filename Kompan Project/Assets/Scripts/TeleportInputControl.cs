@@ -8,7 +8,7 @@ public class TeleportInputControl : MonoBehaviour {
 
 	public Transform playArea;
 
-	private float heightOffset = 0.2f;
+	private float heightOffset = 1.6f;
 
 	private SteamVR_TrackedObject trackedObj;
 
@@ -20,17 +20,13 @@ public class TeleportInputControl : MonoBehaviour {
 
 	private Vector3 teleportLocation;
 
-	private FadeMaster fm;
-
 	private bool canTeleport = true;
 	private bool teleporterIsOn = true;
 
 	public GameObject teleportIcon;
-	public GameObject exitIcon;
+	public MeshRenderer teleportMesh;
 
 	void Awake(){
-		fm = GameObject.FindGameObjectWithTag ("FadeMaster").GetComponent<FadeMaster>();
-
 		teleportTarget = transform.GetChild (0);
 		teleportTarget.SetParent (null);
 
@@ -52,8 +48,7 @@ public class TeleportInputControl : MonoBehaviour {
 
 					teleportTarget.position = hit.point + new Vector3 (0, teleportMarkerHeightOffset, 0);
 
-					teleportIcon.SetActive (true);
-					exitIcon.SetActive (false);
+					teleportMesh.material.SetColor ("_TintColor", new Color (0, 1, 0, 1));
 
 					if (Controller.GetHairTriggerDown () && canTeleport) {
 						//fm.Fade (1);
@@ -62,16 +57,27 @@ public class TeleportInputControl : MonoBehaviour {
 						canTeleport = false;
 						MovePlayer ();
 					}
-				}else if (hit.collider.gameObject.CompareTag ("Exit")) {
+				} else if (hit.collider.gameObject.CompareTag ("Exit")) {
 					teleportTarget.position = hit.point + new Vector3 (0, teleportMarkerHeightOffset, 0);
 
-					teleportIcon.SetActive (false);
-					exitIcon.SetActive (true);
+					teleportMesh.material.SetColor ("_TintColor", new Color (1, 0, 0, 1));
 
 					if (Controller.GetHairTriggerDown () && canTeleport) {
 						if (!SteamVR_LoadLevel.loading) {
 							SteamVR_LoadLevel.Begin ("Kompan Test Scene", false, 0.5f, 0, 0, 0, 1);
 						}
+					}
+				} else if (hit.collider.gameObject.CompareTag ("Island")) {
+					teleportTarget.position = hit.point + new Vector3 (0, teleportMarkerHeightOffset, 0);
+
+					teleportMesh.material.SetColor ("_TintColor", new Color (1, 0, 1, 1));
+
+					if (Controller.GetHairTriggerDown () && canTeleport) {
+						playArea.position = hit.collider.GetComponent<TeleportToNextIsland> ().teleportLocation.position;
+					}
+				}else if(hit.collider.gameObject.CompareTag("Popup")){
+					if (Controller.GetHairTriggerDown ()) {
+						hit.collider.gameObject.GetComponent<InteractivePopup> ().Initialize (new Vector3 (0, 0, 0));
 					}
 				}
 			}
@@ -81,7 +87,6 @@ public class TeleportInputControl : MonoBehaviour {
 	}
 
 	void MovePlayer(){
-		fm.OnCompletelyFaded -= MovePlayer;
 		Vector3 difference = playArea.position - transform.position;
 		difference = new Vector3 (difference.x, 0, difference.z);
 		playArea.position = teleportLocation + new Vector3 (0, heightOffset, 0) + difference;
@@ -106,4 +111,8 @@ public class TeleportInputControl : MonoBehaviour {
 			teleporterIsOn = true;
 		}
 	}
+
+	/*
+	 * info bokse
+	*/
 }

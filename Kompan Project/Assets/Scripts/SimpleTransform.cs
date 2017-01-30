@@ -6,6 +6,10 @@ public class SimpleTransform : MonoBehaviour {
 
 	public float speed = 25;
 
+	private bool isSlowingDown = false;
+	[HideInInspector]
+	public float slowDownFactor;
+
 	public enum Axis
 	{
 		X,
@@ -14,14 +18,22 @@ public class SimpleTransform : MonoBehaviour {
 	}
 
 	public Axis myAxis = Axis.Y;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (isSlowingDown) {
+
+			if (speed < 0.05f && speed > -0.05f) {
+				Destroy (this);
+			}
+
+			if (speed > 0) {
+				speed -= Time.deltaTime * slowDownFactor;
+			} else {
+				speed += Time.deltaTime * slowDownFactor;
+			}
+		}
 
 		switch(myAxis){
 		case Axis.X:
@@ -34,5 +46,10 @@ public class SimpleTransform : MonoBehaviour {
 			transform.Rotate (new Vector3 (0, 0, -speed));
 			break;
 		}
+	}
+
+	public void SlowDown(float neoSlowDownFactor){
+		isSlowingDown = true;
+		slowDownFactor = neoSlowDownFactor;
 	}
 }

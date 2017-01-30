@@ -24,7 +24,7 @@ public class WobbleTarget : LookTarget {
 	public static GameObject chosenBubble;
 
 	[HideInInspector]
-	public int sceneIndex;
+	public Transform teleportLocation;
 
 	private bool isLoadingLevel = false;
 	void Awake () {
@@ -60,11 +60,10 @@ public class WobbleTarget : LookTarget {
 		}
 	}
 
-
 	void InitiateLoad () {
-		SteamVR_LoadLevel.Begin ("FirstPreviewScene", false, 0.5f, 0, 0, 0, 1);
-		isLoadingLevel = true;
-		//UnityEngine.SceneManagement.SceneManager.LoadScene (1);
+		SteamVR_Fade.Start (Color.black, 0.5f, true);
+		GameObject.FindGameObjectWithTag("Player").transform.position = teleportLocation.position;
+		Destroy (gameObject);
 	}
 
 	#region implemented abstract members of LookTarget

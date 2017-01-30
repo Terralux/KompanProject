@@ -21,7 +21,8 @@ public class SimpleRotation : MonoBehaviour {
 	[Range(0.05f,10f)]
 	public float slowDownFactor = 10f;
 
-	public TargetSelection ts;
+	public SelectionControl leftController;
+	public SelectionControl rightController;
 
 	void Start(){
 		rotationOffset = 360f/transform.childCount;
@@ -44,12 +45,13 @@ public class SimpleRotation : MonoBehaviour {
 
 				foreach (WobbleTarget wt in transform.GetComponentsInChildren<WobbleTarget>()) {
 					wt.enabled = true;
-					wt.sceneIndex = count;
+					//wt.sceneIndex = count;
 					wt.InitializeText ();
 					Destroy (wt.transform.GetComponent<LerpTowards> ());
 					count++;
 				}
-				ts.enabled = true;
+				leftController.enabled = true;
+				rightController.enabled = true;
 				speed = 0f;
 				Destroy (this, 1f);
 			}
