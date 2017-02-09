@@ -61,6 +61,7 @@ public class WobbleTarget : LookTarget {
 	}
 
 	void InitiateLoad () {
+		globalFraction = 0f;
 		SteamVR_Fade.Start (Color.black, 0.5f, true);
 		GameObject.FindGameObjectWithTag("Player").transform.position = teleportLocation.position;
 		GameObject.FindGameObjectWithTag ("Player").transform.LookAt (teleportLocation.position + teleportLocation.forward);
