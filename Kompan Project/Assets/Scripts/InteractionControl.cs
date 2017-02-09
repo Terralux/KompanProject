@@ -30,7 +30,7 @@ public class InteractionControl : MonoBehaviour {
 			}
 
 			if (Controller.GetHairTriggerUp ()) {
-				io.Interact (transform.position);
+				io.End (transform.position);
 			}
 		}
 	}

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InteractiveFollowObject : InteractiveObject {
 
+	public Transform goal;
+	public float speed = 3f;
+
 	private Vector3 offset;
 
 	private Rigidbody rb;
@@ -20,7 +23,9 @@ public class InteractiveFollowObject : InteractiveObject {
 
 	public override void Initialize (Vector3 targetPosition){
 
-		GameObject[] GOs = GameObject.FindGameObjectsWithTag ("Player");
+		rb.velocity = Vector3.zero;
+
+		GameObject[] GOs = GameObject.FindGameObjectsWithTag ("Controller");
 
 		GameObject targetGO = GOs[0];
 
@@ -34,9 +39,10 @@ public class InteractiveFollowObject : InteractiveObject {
 		rb.useGravity = false;
 	}
 
-	public override void End (Vector3 targetPosition){
+	public override void End (Vector3 targetPosition) {
 		transform.SetParent (null);
 		rb.useGravity = true;
+		rb.velocity = (goal.position + (Vector3.up * speed / 2) - transform.position).normalized * speed;
 	}
 
 	#endregion

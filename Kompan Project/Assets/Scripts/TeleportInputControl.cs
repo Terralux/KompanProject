@@ -26,6 +26,8 @@ public class TeleportInputControl : MonoBehaviour {
 	public GameObject teleportIcon;
 	public MeshRenderer teleportMesh;
 
+	public LineRenderer lr;
+
 	void Awake(){
 		teleportTarget = transform.GetChild (0);
 		teleportTarget.SetParent (null);
@@ -44,6 +46,13 @@ public class TeleportInputControl : MonoBehaviour {
 			Ray ray = new Ray (trackedObj.transform.position, trackedObj.transform.forward);
 
 			if (Physics.Raycast (ray, out hit, 100f)) {
+
+				Vector3[] newPoints = Curver.MakeSmoothCurve (new Vector3[]{ transform.position, hit.point }, 3f);
+				lr.SetPositions (newPoints);
+
+				//lr.SetPosition (0, transform.position);
+				//lr.SetPosition (1, hit.point);
+
 				if (hit.collider.gameObject.CompareTag ("Terrain")) {
 
 					teleportTarget.position = hit.point + new Vector3 (0, teleportMarkerHeightOffset, 0);
@@ -75,14 +84,19 @@ public class TeleportInputControl : MonoBehaviour {
 					if (Controller.GetHairTriggerDown () && canTeleport) {
 						playArea.position = hit.collider.GetComponent<TeleportToNextIsland> ().teleportLocation.position;
 					}
-				}else if(hit.collider.gameObject.CompareTag("Popup")){
+				} else if (hit.collider.gameObject.CompareTag ("Popup")) {
 					if (Controller.GetHairTriggerDown ()) {
 						hit.collider.gameObject.GetComponent<InteractivePopup> ().Initialize (new Vector3 (0, 0, 0));
 					}
 				}
+			} else {
+				lr.SetPosition (0, transform.position);
+				lr.SetPosition (1, transform.position + transform.forward * 100);
 			}
 		} else {
 			teleportTarget.position = new Vector3 (100000, 100000, 100000);
+			lr.SetPosition (0, transform.position);
+			lr.SetPosition (1, transform.position + transform.forward * 100);
 		}
 	}
 

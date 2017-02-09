@@ -11,9 +11,9 @@ public class WobbleTarget : LookTarget {
 	private bool isInFocus = false;
 
 	public float fraction = 0f;
+	private static float globalFraction = 0f;
 	private Vector3 currentSize;
 
-	//public GameObject splashParticles;
 	public GameObject bubbleParticles;
 
 	public GameObject textObject;
@@ -39,15 +39,15 @@ public class WobbleTarget : LookTarget {
 						InitiateLoad ();
 					}
 				} else {
-					fraction += 0.05f * speed * Time.deltaTime;
-					transform.position = Vector3.Lerp (originalPosition, Camera.main.transform.position, fraction);
+					globalFraction += 0.05f * speed * Time.deltaTime;
+					transform.position = Vector3.Lerp (originalPosition, Camera.main.transform.position, globalFraction);
 				}
 			}else{
 				textObject.transform.SetParent (transform);
 
 				if (fraction < 1) {
-					fraction += 0.15f * speed * Time.deltaTime;
-					transform.localScale = Vector3.Lerp (originalSize, Vector3.zero, fraction);
+					StopAllCoroutines ();
+					transform.localScale = Vector3.Lerp (originalSize, Vector3.zero, globalFraction * 1.03f);
 				} else {
 					Pop ();
 				}
@@ -63,6 +63,7 @@ public class WobbleTarget : LookTarget {
 	void InitiateLoad () {
 		SteamVR_Fade.Start (Color.black, 0.5f, true);
 		GameObject.FindGameObjectWithTag("Player").transform.position = teleportLocation.position;
+		GameObject.FindGameObjectWithTag ("Player").transform.LookAt (teleportLocation.position + teleportLocation.forward);
 		Destroy (gameObject);
 	}
 
@@ -79,16 +80,17 @@ public class WobbleTarget : LookTarget {
 
 	public override void Focus(bool inFocus) {
 		if (!isInFocus && inFocus) {
-			bubbleParticles.GetComponent<ParticleSystem> ().Play ();
+			//bubbleParticles.GetComponent<ParticleSystem> ().Play ();
 		}
 		isInFocus = inFocus;
 
 		if (!inFocus) {
 			currentSize = transform.localScale;
 			StartCoroutine (LerpSizeToOrigin ());
-			bubbleParticles.GetComponent<ParticleSystem> ().Stop ();
+			//bubbleParticles.GetComponent<ParticleSystem> ().Stop ();
 		} else {
 			StopAllCoroutines ();
+			fraction = 0f;
 		}
 	}
 
