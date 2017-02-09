@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class SoundUponInteraction : InteractiveObject {
 
-	private AudioSource audio;
+	private AudioSource myAudioSource;
 	public float frequency;
 
 	private int position = 0;
 
 	void Awake(){
 		AudioClip myClip = AudioClip.Create ("MySinusoid", 44100 * 2, 1, 44100, true, OnAudioRead, OnAudioSetPosition);
-		audio = GetComponent<AudioSource> ();
-		audio.clip = myClip;
+		myAudioSource = GetComponent<AudioSource> ();
+		myAudioSource.clip = myClip;
 	}
 
 	#region implemented abstract members of InteractiveObject
 
 	public override void Interact (Vector3 targetPosition){
-		audio.Play ();
+		myAudioSource.Play ();
 	}
 
 	public override void Initialize (Vector3 targetPosition){
-		audio.Play ();
+		myAudioSource.Play ();
 	}
 
 	public void OnAudioRead(float[] data){

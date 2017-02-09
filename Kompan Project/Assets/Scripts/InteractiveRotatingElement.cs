@@ -7,8 +7,6 @@ public class InteractiveRotatingElement : InteractiveObject {
 	public enum Axis{	X,	Y,	Z	}
 	public Axis rotationAxis = Axis.X;
 
-	private float angleOffset = 0f;
-
 	private Vector3 trackedPositionOne;
 	private Vector3 trackedPositionTwo;
 
@@ -28,13 +26,10 @@ public class InteractiveRotatingElement : InteractiveObject {
 
 		switch (rotationAxis) {
 		case Axis.X:
-			angleOffset = transform.rotation.eulerAngles.x;
 			break;
 		case Axis.Y:
-			angleOffset = transform.rotation.eulerAngles.y;
 			break;
 		case Axis.Z:
-			angleOffset = transform.rotation.eulerAngles.z;
 			break;
 		}
 	}

@@ -231,8 +231,6 @@ public class SteamVR_LoadLevel : MonoBehaviour
 	// Corourtine to handle all the steps across loading boundaries.
 	IEnumerator LoadLevel()
 	{
-		Debug.Log ("I started loading level!");
-
 		// Optionally rotate loading screen transform around the camera into view.
 		// We assume here that the loading screen is already facing toward the origin,
 		// and that the progress bar transform (if any) is a child and will follow along.
@@ -289,7 +287,6 @@ public class SteamVR_LoadLevel : MonoBehaviour
 
 		// Optionally set a skybox to use as a backdrop in the compositor.
 		var compositor = OpenVR.Compositor;
-		Debug.Log (compositor);
 
 		if (compositor != null)
 		{

@@ -28,7 +28,6 @@ public class AnimationManager : MonoBehaviour {
 		yield return new WaitForSeconds (Random.Range (minTimeBetweenBounces, maxTimeBetweenBounces));
 		int childIndex = Random.Range (0, parentObject.transform.childCount);
 		parentObject.transform.GetChild (childIndex).GetComponent<Animator> ().SetTrigger ("Bounce");
-		parentObject.transform.GetChild (childIndex).GetComponent<AudioSource> ().Play();
 		StartCoroutine (WaitForNextBounce ());
 	}
 }

@@ -5,8 +5,18 @@ using UnityEngine;
 public class InteractivePopup : InteractiveObject {
 
 	public GameObject objectToShow;
+	private PopupMaster pm;
 
 	void Awake(){
+		Hide ();
+	}
+
+	void Start(){
+		pm = GameObject.FindGameObjectWithTag ("PopupMaster").GetComponent<PopupMaster> ();
+		pm.OnSelectedAPopup += Hide;
+	}
+
+	public void Hide(){
 		objectToShow.SetActive (false);
 	}
 
@@ -17,7 +27,10 @@ public class InteractivePopup : InteractiveObject {
 	}
 
 	public override void Initialize (Vector3 targetPosition){
-		objectToShow.SetActive (!objectToShow.activeSelf);
+		if (pm.OnSelectedAPopup != null) {
+			pm.OnSelectedAPopup ();
+		}
+		objectToShow.SetActive (true);
 	}
 
 	public override void End (Vector3 targetPosition){

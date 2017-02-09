@@ -6,14 +6,15 @@ public class SelectionControl : MonoBehaviour {
 
 	public Transform playArea;
 
+	public Transform KompanLogoGuy;
+	public float heightOffset = 2f;
+
 	private SteamVR_TrackedObject trackedObj;
 
 	private bool isInFocus = false;
 
 	private LookTarget prevLt;
 	private LookTarget lt;
-
-	private float passedTime = 0f;
 
 	private SteamVR_Controller.Device Controller{
 		get { return SteamVR_Controller.Input ((int)trackedObj.index); }
@@ -38,26 +39,30 @@ public class SelectionControl : MonoBehaviour {
 					if ((lt as WobbleTarget).isActiveAndEnabled) {
 						isInFocus = true;
 						lt.Focus (isInFocus);
+						KompanLogoGuy.position = hit.collider.transform.position + Vector3.up * heightOffset;
 
 						if (lt != prevLt) {
-							passedTime = 0f;
 							if (prevLt != null) {
 								prevLt.Focus (false);
+								KompanLogoGuy.position = new Vector3 (0, -10000, 0);
 							}
 						}
 					}
 
 					if (Controller.GetHairTriggerDown ()) {
 						lt.Action ();
+						KompanLogoGuy.position = new Vector3 (0, -10000, 0);
 					}
 				} else {
 					if (prevLt != null) {
 						prevLt.Focus (false);
+						KompanLogoGuy.position = new Vector3 (0, -10000, 0);
 					}
 				}
 			} else {
 				if (prevLt != null) {
 					prevLt.Focus (false);
+					KompanLogoGuy.position = new Vector3 (0, -10000, 0);
 				}
 			}
 		}
